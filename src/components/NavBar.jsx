@@ -2,15 +2,18 @@
 
 import Link from "next/link";
 import ProductSearch from "@/app/(main)/search/page";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { useDebounce } from "use-debounce";
+import axios from "axios";
+import UserContext from "@/context/UserContext";
 
 export default function NavBar() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [query] = useDebounce(searchQuery, 400);
   const router = useRouter();
+  const { loggedUser, setLoggedUser } = useContext(UserContext);
 
   useEffect(() => {
     const fetchSearchResults = async () => {
@@ -42,6 +45,14 @@ export default function NavBar() {
     setSearchQuery(event.target.value);
   };
 
+  const handleLogout = async () => {
+    try {
+      await axios.get("/api/users/logout");
+      setLoggedUser("");
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
   const handleSearch = (event) => {
     // Added type annotation
     event.preventDefault();
@@ -51,7 +62,7 @@ export default function NavBar() {
 
   return (
     <>
-      <div className="flex mt-5">
+      <div className="flex mt-5 gap-x-6 items-center">
         <Link href={"/"}>
           <img
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/EBay_logo.svg/300px-EBay_logo.svg.png"
@@ -62,6 +73,18 @@ export default function NavBar() {
               setSearchResults([]);
             }}
           />
+        </Link>
+        <Link
+          href={"/login"}
+          className="hover:text-black bg-yellow-300 text-center text-white p-2 w-20 rounded-full"
+        >
+          Login
+        </Link>{" "}
+        <Link
+          href={"/signup"}
+          className="hover:text-black bg-yellow-300 text-center text-white p-2 w-20 rounded-full"
+        >
+          {loggedUser ? `Hey, ${loggedUser}` : "Signup"}
         </Link>
         <form onSubmit={handleSearch} className="flex justify-center">
           <input
@@ -77,6 +100,7 @@ export default function NavBar() {
           >
             Search
           </button>
+          <button onClick={handleLogout}>Logout</button>
         </form>
       </div>
       <ProductSearch searchResults={searchResults} searchQuery={searchQuery} />

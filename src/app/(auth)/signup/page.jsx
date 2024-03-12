@@ -1,70 +1,168 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { ReloadIcon } from "@radix-ui/react-icons";
+import UserContext from "@/context/UserContext";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
 export default function SignupPage() {
-  const [user, setUser] = useState({ username: "", password: "", email: "" });
-  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [user, setUser] = useState({
+    firstName: "",
+    lastName: "",
+    password: "",
+    email: "",
+  });
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const form = useForm();
+  const [buttonClicked, setButtonClicked] = useState(false);
+  const { setLoggedUser } = useContext(UserContext);
+
   const onSignup = async () => {
     try {
-      setLoading(true);
       const response = await axios.post("/api/users/signup", user);
       console.log(response.data);
+      setButtonClicked(true);
+      setLoggedUser(user.firstName);
       router.push("/login");
     } catch (error) {
       console.log(error);
-    } finally {
-      setLoading(false);
     }
   };
 
   useEffect(() => {
     if (
-      user.username.length > 0 &&
+      user.firstName.length > 0 &&
+      user.lastName.length > 0 &&
       user.email.length > 0 &&
       user.password.length > 0
     ) {
-      setButtonDisabled(false);
     } else {
-      setButtonDisabled(true);
     }
   }, [user]);
   return (
-    <div className="flex flex-col ">
+    <Form {...form}>
       <h1>{loading ? "Processing" : "Signup"}</h1>
-      <input
-        id="username"
-        type="text"
-        placeholder="Username"
-        className="border-2"
-        value={user.username}
-        onChange={(e) => setUser({ ...user, username: e.target.value })}
-      />
-      <input
-        id="Email"
-        type="email"
-        placeholder="Email"
-        className="border-2"
-        value={user.email}
-        onChange={(e) => setUser({ ...user, email: e.target.value })}
-      />
-      <input
-        id="password"
-        type="password"
-        placeholder="Password"
-        className="border-2"
-        value={user.password}
-        onChange={(e) => setUser({ ...user, password: e.target.value })}
-      />
 
-      <button onClick={onSignup}>
-        {buttonDisabled ? "Fill all the Details" : "Signup"}
-      </button>
-      <Link href={"/login"}>Visit Login Page</Link>
-    </div>
+      <form
+        onSubmit={form.handleSubmit(onSignup)}
+        className="flex gap-y-5 flex-col mt-20 ml-20"
+      >
+        <div className="flex gap-x-5 ">
+          <FormField
+            control={form.control}
+            name="firstName"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    placeholder="First Name"
+                    {...field}
+                    onChange={(e) =>
+                      setUser({ ...user, firstName: e.target.value })
+                    }
+                    value={user.firstName}
+                    type="text"
+                    className="rounded-lg w-36"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="lastName"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    placeholder="Last Name"
+                    {...field}
+                    onChange={(e) =>
+                      setUser({ ...user, lastName: e.target.value })
+                    }
+                    value={user.lastName}
+                    type="text"
+                    className="rounded-lg w-36"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  placeholder="Enter your Email"
+                  {...field}
+                  onChange={(e) => setUser({ ...user, email: e.target.value })}
+                  value={user.email}
+                  type="email"
+                  className="disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
+                invalid:border-red-500 invalid:text-red-600
+                focus:border-none focus:invalid:ring-red-500 w-80 rounded-lg"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  placeholder="Enter your Password"
+                  {...field}
+                  onChange={(e) =>
+                    setUser({ ...user, password: e.target.value })
+                  }
+                  value={user.password}
+                  type="password"
+                  className="w-80 rounded-lg"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button
+          type="submit"
+          onClick={onSignup}
+          className={`rounded-full w-44 ${buttonClicked ? "hidden" : "block"}`}
+        >
+          Signup
+        </Button>
+        <Button
+          className={`w-44 rounded-full ${buttonClicked ? "block" : "hidden"}`}
+          disabled
+        >
+          <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+          Please wait
+        </Button>
+        <Link href={"/login"}>Visit Login Page</Link>
+      </form>
+    </Form>
   );
 }

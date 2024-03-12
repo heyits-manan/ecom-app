@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import React, { useState } from "react";
 import Link from "next/link";
 import axios from "axios";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,9 +20,9 @@ import { Input } from "@/components/ui/input";
 
 export default function LoginPage() {
   const [user, setUser] = useState({ password: "", email: "" });
-  const [buttonDisabled, setButtonDisabled] = useState(false);
   const router = useRouter();
   const form = useForm();
+  const [buttonClicked, setButtonClicked] = useState(false);
 
   const onLogin = async () => {
     try {
@@ -79,9 +80,29 @@ export default function LoginPage() {
             </FormItem>
           )}
         />
-        <Button type="submit" className={`rounded-full w-44`}>
-          Login
+        <Button
+          type="submit"
+          onClick={onLogin}
+          className={`rounded-full w-44 ${buttonClicked ? "hidden" : "block"}`}
+        >
+          Signup
         </Button>
+        <Button
+          className={`w-44 rounded-full ${buttonClicked ? "block" : "hidden"}`}
+          disabled
+        >
+          <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+          Please wait
+        </Button>
+        <div>
+          Dont have an account?{" "}
+          <Link
+            href={"/signup"}
+            className={`bg-orange-500 p-3 rounded-full hover:text-black text-white`}
+          >
+            Visit Signup Page
+          </Link>{" "}
+        </div>
       </form>
     </Form>
   );
