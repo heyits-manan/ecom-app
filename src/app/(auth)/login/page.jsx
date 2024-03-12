@@ -2,11 +2,25 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [user, setUser] = useState({ username: "", password: "", email: "" });
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-  const onLogin = async () => {};
+  const onLogin = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post("/api/users/login", user);
+      router.push("/");
+    } catch (error) {
+      console.log("Login Failed: ", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="flex flex-col">
       <input
