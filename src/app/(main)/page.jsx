@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import MainLayout from "./layout";
 import { useState, useEffect } from "react";
 
 async function getProducts() {

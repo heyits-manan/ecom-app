@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import MainLayout from "../../layout";
 
 async function getIndividualProduct(productId) {
   const res = await fetch(`https://dummyjson.com/products/${productId}`);

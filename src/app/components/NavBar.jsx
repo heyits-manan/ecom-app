@@ -1,15 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import ProductSearch from "@/app/search/page";
+import ProductSearch from "@/app/(main)/search/page";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation"; // Fixed import from "next/navigation"
+import { useRouter } from "next/navigation";
 import { useDebounce } from "use-debounce";
 
 export default function NavBar() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const [query] = useDebounce(searchQuery, 300);
+  const [query] = useDebounce(searchQuery, 400);
   const router = useRouter();
 
   useEffect(() => {
