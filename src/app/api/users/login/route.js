@@ -3,6 +3,7 @@ import User from "@/models/userModel";
 import bcryptjs from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
+
 require("dotenv").config();
 
 connect();
@@ -19,6 +20,7 @@ export async function POST(request) {
       );
     }
     const validPassword = await bcryptjs.compare(password, user.password);
+
     if (!validPassword) {
       return NextResponse.json({ error: "Invalid password" }, { status: 400 });
     }
@@ -38,6 +40,7 @@ export async function POST(request) {
     response.cookies.set("token", token, {
       httpOnly: true,
     });
+
     return response;
   } catch (error) {
     return NextResponse.error("Error logging in user");

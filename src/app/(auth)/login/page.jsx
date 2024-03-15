@@ -1,7 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Link from "next/link";
 import axios from "axios";
 import { ReloadIcon } from "@radix-ui/react-icons";
@@ -85,7 +85,7 @@ export default function LoginPage() {
           onClick={onLogin}
           className={`rounded-full w-44 ${buttonClicked ? "hidden" : "block"}`}
         >
-          Signup
+          Login
         </Button>
         <Button
           className={`w-44 rounded-full ${buttonClicked ? "block" : "hidden"}`}
