@@ -36,8 +36,15 @@ export default function LoginPage() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onLogin)}
-        className="flex gap-y-5 flex-col mt-20 ml-20"
+        className="flex gap-y-5 flex-col mt-20 ml-10 md:ml-32 lg:ml-52 justify-center items-center w-[75vw]  h-[75vh] md:h-[75vh] bg-white rounded-lg shadow-lg shadow-orange-300 p-10"
       >
+        <h1 className="font-bold md:text-4xl text-sm">Log into your account</h1>
+        <FormDescription className="mb-6">
+          Not a member?{" "}
+          <Link href={"/signup"} className="text-blue-500 hover:underline ">
+            Signup
+          </Link>
+        </FormDescription>
         <FormField
           control={form.control}
           name="email"
@@ -83,26 +90,10 @@ export default function LoginPage() {
         <Button
           type="submit"
           onClick={onLogin}
-          className={`rounded-full w-44 ${buttonClicked ? "hidden" : "block"}`}
+          className={`rounded-full md:w-64 `}
         >
           Login
         </Button>
-        <Button
-          className={`w-44 rounded-full ${buttonClicked ? "block" : "hidden"}`}
-          disabled
-        >
-          <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-          Please wait
-        </Button>
-        <div>
-          Dont have an account?{" "}
-          <Link
-            href={"/signup"}
-            className={`bg-orange-500 p-3 rounded-full hover:text-black text-white`}
-          >
-            Visit Signup Page
-          </Link>{" "}
-        </div>
       </form>
     </Form>
   );

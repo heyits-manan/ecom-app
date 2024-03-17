@@ -25,7 +25,6 @@ export default function SignupPage() {
     password: "",
     email: "",
   });
-  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const form = useForm();
   const [buttonClicked, setButtonClicked] = useState(false);
@@ -54,13 +53,18 @@ export default function SignupPage() {
     }
   }, [user]);
   return (
-    <Form {...form}>
-      <h1>{loading ? "Processing" : "Signup"}</h1>
-
+    <Form {...form} className="ml-28">
       <form
         onSubmit={form.handleSubmit(onSignup)}
-        className="flex gap-y-5 flex-col mt-20 ml-20"
+        className="flex gap-y-5 flex-col mt-20 ml-10 md:ml-32 lg:ml-52 justify-center items-center w-[75vw]  h-[75vh] md:h-[75vh] bg-white rounded-lg shadow-lg shadow-orange-300 p-10"
       >
+        <h1 className="font-bold md:text-4xl text-sm">Create an account</h1>
+        <FormDescription className="mb-6">
+          Already have an account?{" "}
+          <Link href={"/login"} className="text-blue-500 hover:underline ">
+            Login
+          </Link>
+        </FormDescription>
         <div className="flex gap-x-5 ">
           <FormField
             control={form.control}
@@ -147,10 +151,11 @@ export default function SignupPage() {
             </FormItem>
           )}
         />
+
         <Button
           type="submit"
           onClick={onSignup}
-          className={`rounded-full w-44 ${buttonClicked ? "hidden" : "block"}`}
+          className={`rounded-full w-80 ${buttonClicked ? "hidden" : "block"}`}
         >
           Signup
         </Button>
@@ -161,7 +166,6 @@ export default function SignupPage() {
           <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
           Please wait
         </Button>
-        <Link href={"/login"}>Visit Login Page</Link>
       </form>
     </Form>
   );

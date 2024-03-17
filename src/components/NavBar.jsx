@@ -76,20 +76,22 @@ export default function NavBar() {
         </Link>
         <Link
           href={"/login"}
-          className="hover:text-black bg-yellow-300 text-center text-white p-2 w-20 rounded-full"
+          className="hover:text-black bg-orange-400 text-center text-white p-2 w-20 rounded-full"
         >
           Login
         </Link>{" "}
         <Link
           href={"/signup"}
-          className="hover:text-black bg-yellow-300 text-center text-white p-2 w-20 rounded-full"
+          className={`hover:text-black bg-orange-400 text-center text-white p-2 ${
+            loggedUser ? "w-36" : "w-20"
+          } rounded-full`}
         >
           {loggedUser ? `Hey, ${loggedUser}` : "Signup"}
         </Link>
         <form onSubmit={handleSearch} className="flex justify-center">
           <input
             type="text"
-            placeholder="Search for anything"
+            placeholder=" Search for anything"
             className="border-2 border-grey-300 rounded-l-lg p-1 w-[50vw] ml-5 active:outline-none focus:outline-none focus:border-blue-500"
             value={searchQuery}
             onChange={handleInputChange}
@@ -100,7 +102,12 @@ export default function NavBar() {
           >
             Search
           </button>
-          <button onClick={handleLogout}>Logout</button>
+          <button
+            onClick={handleLogout}
+            className="hover:text-black bg-orange-400 text-center text-white p-2 w-20 rounded-full ml-5"
+          >
+            Logout
+          </button>
         </form>
       </div>
       <ProductSearch searchResults={searchResults} searchQuery={searchQuery} />
