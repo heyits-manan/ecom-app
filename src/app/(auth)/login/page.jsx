@@ -17,16 +17,19 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import UserContext from "@/context/UserContext";
 
 export default function LoginPage() {
   const [user, setUser] = useState({ password: "", email: "" });
   const router = useRouter();
   const form = useForm();
-  const [buttonClicked, setButtonClicked] = useState(false);
+  const { setLoggedUser } = useContext(UserContext);
 
-  const onLogin = async () => {
+  const onLogin = async (request) => {
     try {
       const response = await axios.post("/api/users/login", user);
+      console.log("Login Successful: ", response.data);
+      setLoggedUser(response.data.user);
       router.push("/");
     } catch (error) {
       console.log("Login Failed: ", error.message);
@@ -36,10 +39,12 @@ export default function LoginPage() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onLogin)}
-        className="flex gap-y-5 flex-col mt-20 ml-10 md:ml-32 lg:ml-52 justify-center items-center w-[75vw]  h-[75vh] md:h-[75vh] bg-white rounded-lg shadow-lg shadow-orange-300 p-10"
+        className="flex gap-y-5 flex-col mt-40 ml-10 md:ml-32 lg:ml-[40em]  justify-center items-center  w-[35vw]  h-[75vh] md:h-[55vh] bg-white rounded-lg shadow-lg shadow-orange-300 p-10 "
       >
-        <h1 className="font-bold md:text-4xl text-sm">Log into your account</h1>
-        <FormDescription className="mb-6">
+        <h1 className="font-bold md:text-4xl text-sm text-black">
+          Log into your account
+        </h1>
+        <FormDescription className="mb-6 text-black">
           Not a member?{" "}
           <Link href={"/signup"} className="text-blue-500 hover:underline ">
             Signup
@@ -59,7 +64,7 @@ export default function LoginPage() {
                   type="email"
                   className="disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                   invalid:border-red-500 invalid:text-red-600
-                  focus:border-none focus:invalid:ring-red-500 w-64 rounded-full"
+                  focus:border-none focus:invalid:ring-red-500 w-64 rounded-lg"
                 />
               </FormControl>
               <FormMessage />
@@ -80,7 +85,7 @@ export default function LoginPage() {
                   }
                   value={user.password}
                   type="password"
-                  className="w-64 rounded-full"
+                  className="w-64 rounded-lg"
                 />
               </FormControl>
               <FormMessage />
@@ -90,7 +95,7 @@ export default function LoginPage() {
         <Button
           type="submit"
           onClick={onLogin}
-          className={`rounded-full md:w-64 `}
+          className={`rounded-full md:w-64 bg-black`}
         >
           Login
         </Button>

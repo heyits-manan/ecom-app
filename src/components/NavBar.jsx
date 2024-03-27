@@ -45,10 +45,10 @@ export default function NavBar() {
     setSearchQuery(event.target.value);
   };
 
-  const handleLogout = async () => {
+  const handleLogout = async (response) => {
     try {
       await axios.get("/api/users/logout");
-      setLoggedUser("");
+      setLoggedUser({});
     } catch (error) {
       console.error("Error logging out:", error);
     }
@@ -75,18 +75,20 @@ export default function NavBar() {
           />
         </Link>
         <Link
-          href={"/login"}
-          className="hover:text-black bg-orange-400 text-center text-white p-2 w-20 rounded-full"
+          href={loggedUser.firstName ? "/profile" : "/login"}
+          className={`hover:bg-blue-600 bg-blue-500 text-center text-white p-2 w-20 rounded-full ${
+            loggedUser.firstName ? "hidden" : "block"
+          }`}
         >
           Login
         </Link>{" "}
         <Link
-          href={"/signup"}
-          className={`hover:text-black bg-orange-400 text-center text-white p-2 ${
-            loggedUser ? "w-36" : "w-20"
+          href={loggedUser.firstName ? "/profile" : "/signup"}
+          className={`hover:bg-blue-600 bg-blue-500 text-center text-white p-2 ${
+            loggedUser.firstName ? "w-36" : "w-20"
           } rounded-full`}
         >
-          {loggedUser ? `Hey, ${loggedUser}` : "Signup"}
+          {loggedUser.firstName ? `Hey, ${loggedUser.firstName}` : "Signup"}
         </Link>
         <form onSubmit={handleSearch} className="flex justify-center">
           <input
@@ -104,7 +106,9 @@ export default function NavBar() {
           </button>
           <button
             onClick={handleLogout}
-            className="hover:text-black bg-orange-400 text-center text-white p-2 w-20 rounded-full ml-5"
+            className={`hover:bg-blue-600 bg-blue-500 text-center text-white p-2 w-20 rounded-full ml-5 ${
+              loggedUser.firstName ? "block" : "hidden"
+            } `}
           >
             Logout
           </button>

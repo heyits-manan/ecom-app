@@ -53,13 +53,15 @@ export default function SignupPage() {
     }
   }, [user]);
   return (
-    <Form {...form} className="ml-28">
+    <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSignup)}
-        className="flex gap-y-5 flex-col mt-20 ml-10 md:ml-32 lg:ml-52 justify-center items-center w-[75vw]  h-[75vh] md:h-[75vh] bg-white rounded-lg shadow-lg shadow-orange-300 p-10"
+        className="flex gap-y-5 flex-col mt-40 ml-10 md:ml-32 lg:ml-[40em] justify-center items-center w-[35vw]  h-[75vh] md:h-[55vh]  bg-white  rounded-lg shadow-lg shadow-orange-300 p-10"
       >
-        <h1 className="font-bold md:text-4xl text-sm">Create an account</h1>
-        <FormDescription className="mb-6">
+        <h1 className="font-bold md:text-4xl text-sm text-black">
+          Create an account
+        </h1>
+        <FormDescription className="mb-6 text-black">
           Already have an account?{" "}
           <Link href={"/login"} className="text-blue-500 hover:underline ">
             Login
@@ -81,6 +83,7 @@ export default function SignupPage() {
                     value={user.firstName}
                     type="text"
                     className="rounded-lg w-36"
+                    required
                   />
                 </FormControl>
                 <FormMessage />
@@ -102,6 +105,7 @@ export default function SignupPage() {
                     value={user.lastName}
                     type="text"
                     className="rounded-lg w-36"
+                    required
                   />
                 </FormControl>
                 <FormMessage />
@@ -124,6 +128,7 @@ export default function SignupPage() {
                   className="disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                 invalid:border-red-500 invalid:text-red-600
                 focus:border-none focus:invalid:ring-red-500 w-80 rounded-lg"
+                  required
                 />
               </FormControl>
               <FormMessage />
@@ -145,6 +150,7 @@ export default function SignupPage() {
                   value={user.password}
                   type="password"
                   className="w-80 rounded-lg"
+                  required
                 />
               </FormControl>
               <FormMessage />
@@ -155,7 +161,9 @@ export default function SignupPage() {
         <Button
           type="submit"
           onClick={onSignup}
-          className={`rounded-full w-80 ${buttonClicked ? "hidden" : "block"}`}
+          className={`rounded-full w-80 ${
+            buttonClicked ? "hidden" : "block"
+          } bg-black`}
         >
           Signup
         </Button>
