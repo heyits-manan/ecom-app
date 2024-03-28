@@ -41,6 +41,9 @@ export async function POST(request) {
     response.cookies.set("token", token, {
       httpOnly: true,
     });
+    response.cookies.set("firstName", user.firstName, {
+      httpOnly: false,
+    });
 
     return response;
   } catch (error) {
