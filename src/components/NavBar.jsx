@@ -16,6 +16,27 @@ export default function NavBar() {
   const { loggedUser, setLoggedUser } = useContext(UserContext);
 
   useEffect(() => {
+    // Retrieve firstName from cookie
+    const firstName = getCookie("firstName");
+    console.log(firstName);
+    // Update loggedUser context if firstName exists
+    if (firstName) {
+      setLoggedUser((prevState) => ({ ...prevState, firstName }));
+    }
+  }, [setLoggedUser]);
+
+  // Function to get cookie by name
+  const getCookie = (name) => {
+    console.log(document.cookie);
+    const cookies = document.cookie.split(";").map((cookie) => cookie.trim());
+    for (const cookie of cookies) {
+      if (cookie.startsWith(`${name}=`)) {
+        return cookie.substring(name.length + 1);
+      }
+    }
+    return null;
+  };
+  useEffect(() => {
     const fetchSearchResults = async () => {
       try {
         const response = await fetch(
