@@ -1,23 +1,8 @@
 import { NextResponse } from "next/server";
 
-export async function GET(request) {
+export async function GET() {
   try {
     // Extract the host from the request headers
-    const host = request.headers.get("host");
-    console.log(host);
-    let domain = "";
-
-    if (host) {
-      // Example simplistic approach to extract the domain
-      // This might need adjustments based on your domain structure and to ensure security
-      const parts = host.split(".");
-      console.log(parts);
-      if (parts.length >= 2) {
-        domain = `${parts[parts.length - 2]}.${parts[parts.length - 1]}`;
-        console.log(domain);
-      }
-    }
-
     const response = NextResponse.json({
       message: "Logout successful",
       success: true,
@@ -27,13 +12,15 @@ export async function GET(request) {
     response.cookies.set("token", "", {
       httpOnly: true,
       expires: new Date(0),
-      domain: domain, // Use dynamic domain
+      secure: true, // Ensure cookies are sent over HTTPS
+      sameSite: "strict",
       path: "/",
     });
     response.cookies.set("firstName", "", {
       httpOnly: true,
       expires: new Date(0),
-      domain: domain, // Use dynamic domain
+      secure: true, // Ensure cookies are sent over HTTPS
+      sameSite: "strict",
       path: "/",
     });
 
