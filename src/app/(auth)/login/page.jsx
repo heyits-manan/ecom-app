@@ -24,11 +24,13 @@ export default function LoginPage() {
   const router = useRouter();
   const form = useForm();
   const { setLoggedUser } = useContext(UserContext);
+  const [buttonClicked, setButtonClicked] = useState(false);
 
   const onLogin = async (request) => {
     try {
       const response = await axios.post("/api/users/login", user);
       console.log("Login Successful: ", response.data);
+      setButtonClicked(true);
       setLoggedUser(response.data.user);
       router.push("/");
     } catch (error) {
@@ -95,9 +97,19 @@ export default function LoginPage() {
         <Button
           type="submit"
           onClick={onLogin}
-          className={`rounded-full md:w-64 bg-black`}
+          className={`rounded-full md:w-64 bg-black ${
+            buttonClicked ? "hidden" : "block"
+          }`}
         >
           Login
+        </Button>
+        <Button
+          className={`w-44 rounded-full ${
+            buttonClicked ? "block" : "hidden"
+          } items-center`}
+          disabled
+        >
+          <ReloadIcon className="h-4 w-4 animate-spin" />
         </Button>
       </form>
     </Form>

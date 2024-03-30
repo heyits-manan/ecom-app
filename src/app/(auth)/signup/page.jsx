@@ -82,7 +82,7 @@ export default function SignupPage() {
                     }
                     value={user.firstName}
                     type="text"
-                    className="rounded-lg w-36"
+                    className="rounded-lg w-36 focus:border-none"
                     required
                   />
                 </FormControl>
@@ -104,7 +104,7 @@ export default function SignupPage() {
                     }
                     value={user.lastName}
                     type="text"
-                    className="rounded-lg w-36"
+                    className="rounded-lg w-36 focus:border-none"
                     required
                   />
                 </FormControl>
@@ -126,8 +126,8 @@ export default function SignupPage() {
                   value={user.email}
                   type="email"
                   className="disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-                invalid:border-red-500 invalid:text-red-600
-                focus:border-none focus:invalid:ring-red-500 w-80 rounded-lg"
+               
+                focus:border-none w-80 rounded-lg"
                   required
                 />
               </FormControl>
@@ -149,7 +149,7 @@ export default function SignupPage() {
                   }
                   value={user.password}
                   type="password"
-                  className="w-80 rounded-lg"
+                  className="w-80 rounded-lg focus:border-none"
                   required
                 />
               </FormControl>

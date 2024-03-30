@@ -1,7 +1,7 @@
 import { connect } from "@/db/dbConfig";
 import User from "@/models/userModel";
 import bcryptjs from "bcryptjs";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
 require("dotenv").config();
@@ -32,7 +32,7 @@ export async function POST(request) {
     const token = jwt.sign(tokenData, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
-
+    console.log(process.env.COOKIE_DOMAIN);
     const response = NextResponse.json({
       message: "User logged in successfully",
       success: true,

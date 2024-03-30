@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import MainLayout from "./layout";
 import { useState, useEffect } from "react";
 
 async function getProducts() {
@@ -13,7 +12,6 @@ async function getProducts() {
 
 export default function Home() {
   const [products, setProducts] = useState([]);
-  const [count, setCount] = useState(0);
   useEffect(() => {
     const fetchProducts = async () => {
       const data = await getProducts();

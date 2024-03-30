@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
-import { useState, useEffect } from "react";
-import MainLayout from "../../layout";
+import { useState, useEffect, useContext } from "react";
+import UserContext from "@/context/UserContext";
 
 async function getIndividualProduct(productId) {
   const res = await fetch(`https://dummyjson.com/products/${productId}`);
@@ -11,15 +11,32 @@ async function getIndividualProduct(productId) {
 export default function IndividualProduct({ params }) {
   const [product, setProduct] = useState(null);
   const [count, setCount] = useState(1);
+  const { cartItems, setCartItems } = useContext(UserContext);
 
+  const handleAddToCart = () => {
+    setCartItems((prevCartItems) => {
+      const newCartItems = { ...prevCartItems };
+      if (newCartItems[product.id]) {
+        newCartItems[product.id].quantity = count;
+      } else {
+        newCartItems[product.id] = {
+          img: product.images[0],
+          title: product.title,
+          price: product.price,
+          quantity: count,
+        };
+      }
+      return newCartItems;
+    });
+  };
   const handleIncrement = () => {
     if (count < product.stock) {
-      setCount(count + 1);
+      setCount((prevCount) => prevCount + 1);
     }
   };
   const handleDecrement = () => {
     if (count > 1) {
-      setCount(count - 1);
+      setCount((prevCount) => prevCount - 1);
     }
   };
 
@@ -42,7 +59,7 @@ export default function IndividualProduct({ params }) {
   }
 
   return (
-    <div className="flex justify-center gap-16 mt-10 ">
+    <div className="flex justify-center gap-16 mt-36 ">
       <img
         src={product.images[0]}
         alt={product.title + " image"}
@@ -52,7 +69,7 @@ export default function IndividualProduct({ params }) {
         <h2 className="text-2xl font-bold">{product.title}</h2>
         <p className="text-lg w-[400px] mb-1">{product.description}</p>
         <hr className="mb-2" />
-        <div className="text-2xl font-medium mb-28">
+        <div className="text-2xl font-medium mb-10">
           <span className="text-xl font-light mr-2 text-red-500 ">
             -{product.discountPercentage}%
           </span>
@@ -70,7 +87,7 @@ export default function IndividualProduct({ params }) {
             >
               -
             </button>{" "}
-            <span>{count} </span>
+            <span>{count}</span>{" "}
             <button
               className="bg-blue-500 rounded-full w-10 text-white hover:bg-blue-700"
               onClick={handleIncrement}
@@ -81,7 +98,12 @@ export default function IndividualProduct({ params }) {
               Total {product.stock} in stock
             </span>
           </div>
+          <span className="ml-2 text-black text-xl">
+            Total {cartItems[product.id] ? cartItems[product.id].quantity : 0}{" "}
+            in Cart
+          </span>
         </div>
+
         <div className="buttons">
           <Link href={"/"} className="Buy ">
             <button className="bg-blue-500 w-96 p-3 rounded-full text-white font-bold hover:bg-blue-700">
@@ -89,11 +111,12 @@ export default function IndividualProduct({ params }) {
             </button>
           </Link>
           <br />
-          <Link href={"/"} className="AddToCart">
-            <button className="bg-white w-96 p-3 rounded-full text-blue-500 border-2 border-blue-500 mt-2 hover:bg-slate-200">
-              Add to cart
-            </button>
-          </Link>
+          <button
+            className="bg-white w-96 p-3 rounded-full text-blue-500 border-2 border-blue-500 mt-2 hover:bg-slate-200"
+            onClick={handleAddToCart}
+          >
+            {cartItems[product.id] ? "Update Cart" : "Add to Cart"}
+          </button>
         </div>
       </div>
     </div>

@@ -134,6 +134,13 @@ export default function NavBar() {
             Logout
           </button>
         </form>
+        <Link href={"/cart"}>
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/833/833314.png"
+            alt=""
+            className="w-10"
+          />
+        </Link>
       </div>
       <ProductSearch searchResults={searchResults} searchQuery={searchQuery} />
     </>
