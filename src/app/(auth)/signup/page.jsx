@@ -32,9 +32,9 @@ export default function SignupPage() {
 
   const onSignup = async () => {
     try {
+      setButtonClicked(true);
       const response = await axios.post("/api/users/signup", user);
       console.log(response.data);
-      setButtonClicked(true);
       setLoggedUser(user.firstName);
       router.push("/login");
     } catch (error) {
