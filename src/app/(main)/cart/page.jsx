@@ -15,7 +15,7 @@ export default function Page() {
       {Object.keys(cartItems).map((productId) => {
         const product = cartItems[productId];
         return (
-          <Link href={`/product/${productId}`}>
+          <Link href={`/product/${productId}`} key={(key = { productId })}>
             <div key={productId} className="border p-4 mb-4 rounded-lg">
               <img
                 src={product.img}
