@@ -1,7 +1,6 @@
 "use client";
 import { useContext } from "react";
 import UserContext from "@/context/UserContext";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function Page() {
@@ -15,7 +14,7 @@ export default function Page() {
       {Object.keys(cartItems).map((productId) => {
         const product = cartItems[productId];
         return (
-          <Link href={`/product/${productId}`} key={(key = { productId })}>
+          <Link href={`/product/${productId}`} key={productId}>
             <div key={productId} className="border p-4 mb-4 rounded-lg">
               <img
                 src={product.img}
