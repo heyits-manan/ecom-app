@@ -6,7 +6,6 @@ export async function GET() {
       message: "Logout successful",
       success: true,
     });
-    console.log(process.env.COOKIE_DOMAIN);
     response.cookies.set("token", "", {
       httpOnly: true,
       expires: new Date(0),

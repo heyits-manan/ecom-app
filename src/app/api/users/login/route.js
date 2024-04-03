@@ -32,7 +32,6 @@ export async function POST(request) {
     const token = jwt.sign(tokenData, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
-    console.log(process.env.COOKIE_DOMAIN);
     const response = NextResponse.json({
       message: "User logged in successfully",
       success: true,

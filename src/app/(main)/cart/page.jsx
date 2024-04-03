@@ -14,19 +14,31 @@ export default function Page() {
       {Object.keys(cartItems).map((productId) => {
         const product = cartItems[productId];
         return (
-          <Link href={`/product/${productId}`} key={productId}>
+          <div key={productId}>
             <div key={productId} className="border p-4 mb-4 rounded-lg">
-              <img
-                src={product.img}
-                alt={product.title}
-                width={200}
-                height={200}
-              />
-              <h2 className="text-xl font-bold mb-2">{product.title}</h2>
-              <p className="text-gray-700">Price: ${product.price}</p>
-              <p className="text-gray-700">Quantity: {product.quantity}</p>
+              <Link href={`/product/${productId}`} key={productId}>
+                <img
+                  src={product.img}
+                  alt={product.title}
+                  width={200}
+                  height={200}
+                />
+                <h2 className="text-xl font-bold mb-2">{product.title}</h2>
+                <p className="text-gray-700">Price: ${product.price}</p>
+                <p className="text-gray-700">Quantity: {product.quantity}</p>
+              </Link>
+              <button
+                className="bg-red-500 text-white p-2 rounded-lg mt-2"
+                onClick={() => {
+                  const newCartItems = { ...cartItems };
+                  delete newCartItems[productId];
+                  setCartItems(newCartItems);
+                }}
+              >
+                Remove from Cart
+              </button>
             </div>
-          </Link>
+          </div>
         );
       })}
     </div>

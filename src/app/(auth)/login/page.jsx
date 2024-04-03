@@ -3,7 +3,6 @@
 import { useForm } from "react-hook-form";
 import React, { useState, useContext } from "react";
 import Link from "next/link";
-import axios from "axios";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -18,6 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import UserContext from "@/context/UserContext";
+import axios from "axios";
 
 export default function LoginPage() {
   const [user, setUser] = useState({ password: "", email: "" });
@@ -26,17 +26,17 @@ export default function LoginPage() {
   const { setLoggedUser } = useContext(UserContext);
   const [buttonClicked, setButtonClicked] = useState(false);
 
-  const onLogin = async (request) => {
+  const onLogin = async () => {
     try {
       setButtonClicked(true);
       const response = await axios.post("/api/users/login", user);
-      console.log("Login Successful: ", response.data);
       setLoggedUser(response.data.user);
       router.push("/");
     } catch (error) {
       console.log("Login Failed: ", error.message);
     }
   };
+
   return (
     <Form {...form}>
       <form
@@ -96,7 +96,6 @@ export default function LoginPage() {
         />
         <Button
           type="submit"
-          onClick={onLogin}
           className={`rounded-full md:w-64 bg-black ${
             buttonClicked ? "hidden" : "block"
           }`}

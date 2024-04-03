@@ -14,6 +14,10 @@ export default function IndividualProduct({ params }) {
   const { cartItems, setCartItems } = useContext(UserContext);
 
   const handleAddToCart = () => {
+    if (count === 0) {
+      return;
+    }
+    console.log(cartItems);
     setCartItems((prevCartItems) => {
       const newCartItems = { ...prevCartItems };
       if (newCartItems[product.id]) {
