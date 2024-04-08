@@ -5,7 +5,6 @@ import Link from "next/link";
 
 export default function Page() {
   const { cartItems, setCartItems } = useContext(UserContext);
-  console.log(cartItems);
   return (
     <div className={`mt-10 ml-10 mr-10`}>
       <h1 className="text-3xl font-bold mb-4">Cart</h1>

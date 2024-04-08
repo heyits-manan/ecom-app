@@ -5,7 +5,8 @@ import { useState, useEffect } from "react";
 
 async function getProducts() {
   const res = await fetch(
-    "https://dummyjson.com/products?start=${startIndex}&count=${count}"
+    "https://dummyjson.com/products?start=${startIndex}&count=${count}",
+    { cache: "no-cache" }
   );
   return await res.json();
 }
