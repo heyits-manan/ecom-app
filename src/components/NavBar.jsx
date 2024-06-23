@@ -16,10 +16,9 @@ export default function NavBar() {
   const { loggedUser, setLoggedUser } = useContext(UserContext);
 
   useEffect(() => {
-    // Retrieve firstName from cookie
     const firstName = getCookie("firstName");
     console.log(firstName);
-    // Update loggedUser context if firstName exists
+
     if (firstName) {
       setLoggedUser((prevState) => ({ ...prevState, firstName }));
     }
@@ -84,16 +83,15 @@ export default function NavBar() {
   return (
     <>
       <div className="flex mt-5 gap-x-6 items-center">
-        <Link href={"/"}>
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/EBay_logo.svg/300px-EBay_logo.svg.png"
-            alt=""
-            className="ml-5 w-32"
-            onClick={() => {
-              setSearchQuery("");
-              setSearchResults([]);
-            }}
-          />
+        <Link
+          href={"/"}
+          className="text-4xl ml-8 mr-7 font-bold text-black hover:text-gray-500 "
+          onClick={() => {
+            setSearchQuery("");
+            setSearchResults([]);
+          }}
+        >
+          MyStore
         </Link>
         <Link
           href={loggedUser.firstName ? "/profile" : "/login"}
@@ -115,7 +113,7 @@ export default function NavBar() {
           <input
             type="text"
             placeholder=" Search for anything"
-            className="border-2 border-grey-300 rounded-l-lg p-1 w-[50vw] ml-5 active:outline-none focus:outline-none focus:border-blue-500"
+            className="border-2 border-grey-300 rounded-l-lg p-2 w-[50vw] ml-5 active:outline-none focus:outline-none focus:border-blue-500"
             value={searchQuery}
             onChange={handleInputChange}
           />

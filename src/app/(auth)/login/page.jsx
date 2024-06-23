@@ -25,6 +25,7 @@ export default function LoginPage() {
   const form = useForm();
   const { setLoggedUser } = useContext(UserContext);
   const [buttonClicked, setButtonClicked] = useState(false);
+  const [errorLoginMessage, setErrorLoginMessage] = useState(false);
 
   const onLogin = async () => {
     try {
@@ -33,6 +34,7 @@ export default function LoginPage() {
       setLoggedUser(response.data.user);
       router.push("/");
     } catch (error) {
+      setErrorLoginMessage(true);
       console.log("Login Failed: ", error.message);
     }
   };
@@ -41,7 +43,7 @@ export default function LoginPage() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onLogin)}
-        className="flex gap-y-5 flex-col mt-40 ml-10 md:ml-32 lg:ml-[40em]  justify-center items-center  w-[35vw]  h-[75vh] md:h-[55vh] bg-white rounded-lg shadow-lg shadow-orange-300 p-10 "
+        className="flex gap-y-3 flex-col mt-40 ml-10 md:ml-32 lg:ml-[40em]  justify-center items-center  w-[35vw]  h-[75vh] md:h-[55vh] bg-white rounded-lg shadow-lg shadow-orange-300 p-10 "
       >
         <h1 className="font-bold md:text-4xl text-sm text-black">
           Log into your account
@@ -94,17 +96,22 @@ export default function LoginPage() {
             </FormItem>
           )}
         />
+        {errorLoginMessage == true && (
+          <h1 className="text-red-500 text-xs justify-start">
+            Incorrect Credentials
+          </h1>
+        )}
         <Button
           type="submit"
           className={`rounded-full md:w-64 bg-black ${
-            buttonClicked ? "hidden" : "block"
+            buttonClicked && errorLoginMessage == false ? "hidden" : "block"
           }`}
         >
           Login
         </Button>
         <Button
-          className={`w-44 rounded-full ${
-            buttonClicked ? "block" : "hidden"
+          className={`w-12  rounded-full ${
+            buttonClicked && errorLoginMessage == false ? "block" : "hidden"
           } items-center`}
           disabled
         >
