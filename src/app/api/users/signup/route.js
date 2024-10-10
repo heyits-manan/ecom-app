@@ -29,6 +29,7 @@ export async function POST(request) {
     return NextResponse.json({
       message: "User created successfully",
       success: true,
+      status: 201,
       savedUser,
     });
   } catch (error) {
