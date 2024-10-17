@@ -1,4 +1,4 @@
-import { getProducts } from "../../lib/api";
+import { getProducts } from "../api/products/route";
 import ProductCard from "../../components/ProductCard";
 
 export default async function Home() {

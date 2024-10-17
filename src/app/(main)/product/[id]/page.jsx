@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useContext } from "react";
 import UserContext from "@/context/UserContext";
-import { getIndividualProduct } from "@/lib/api";
+import { getIndividualProduct } from "@/app/api/products/route";
 import ProductDetails from "@/components/ProductDetails";
 
 export default function IndividualProduct({ params }) {

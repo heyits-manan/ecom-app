@@ -1,38 +1,47 @@
 "use client";
 
-import Link from "next/link";
-import React from "react";
+import ProductSearch from "@/components/ProductSearch";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
-export const ProductSearch = ({ searchResults }) => {
-  if (!searchResults || searchResults.length === 0) {
-    return null;
+const SearchPage = () => {
+  const searchParams = useSearchParams();
+  const query = searchParams.get("q") || "";
+  const [searchResults, setSearchResults] = useState([]);
+
+  useEffect(() => {
+    const fetchSearchResults = async () => {
+      try {
+        const response = await fetch(
+          `https://dummyjson.com/products/search?q=${encodeURIComponent(query)}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setSearchResults(data.products);
+        } else {
+          console.error("Failed to fetch search results");
+        }
+      } catch (error) {
+        console.error("Error fetching search results:", error);
+      }
+    };
+
+    if (query) {
+      fetchSearchResults();
+    }
+  }, [query]);
+
+  if (searchResults.length === 0) {
+    return (
+      <h1 className="mt-10 text-center">No results found for "{query}"</h1>
+    );
   }
-
   return (
-    <div
-      className={`mt-10 mb-28 flex flex-row flex-wrap gap-x-9 gap-y-3 justify-center `}
-    >
-      {searchResults.map((product) => (
-        <Link
-          href={`/product/${product.id}`}
-          key={product.id}
-          className="h-44 w-96 text-black items-center bg-white flex flex-row rounded-sm shadow-md hover:border-2 cursor-default"
-        >
-          <img
-            src={product.images[0]}
-            alt={product.title + " image"}
-            className="h-36 w-40 object-cover rounded-sm hover:cursor-pointer"
-          />
-          <div className="text ml-5 mb-24 mr-3">
-            <h2 className="hover:underline">{product.title}</h2>
-            <p className="hover:cursor-text">
-              <strong>${product.price}</strong>
-            </p>
-          </div>
-        </Link>
-      ))}
+    <div>
+      <h1 className="mt-10 text-center">Search Results for "{query}"</h1>
+      <ProductSearch searchResults={searchResults} />
     </div>
   );
 };
 
-export default ProductSearch;
+export default SearchPage;
