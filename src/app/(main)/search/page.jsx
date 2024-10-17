@@ -33,15 +33,25 @@ const SearchPage = () => {
 
   if (searchResults.length === 0) {
     return (
-      <h1 className="mt-10 text-center">No results found for "{query}"</h1>
+      <h1 className="mt-10 text-center">
+        No results found for <q>{query}</q>
+      </h1>
     );
   }
   return (
     <div>
-      <h1 className="mt-10 text-center">Search Results for "{query}"</h1>
+      <h1 className="mt-10 text-center">
+        Search Results for <q>{query}</q>
+      </h1>
       <ProductSearch searchResults={searchResults} />
     </div>
   );
 };
 
-export default SearchPage;
+export default function WrappedSearchPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SearchPage />
+    </Suspense>
+  );
+}
